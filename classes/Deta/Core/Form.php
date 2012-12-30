@@ -28,6 +28,8 @@ class Deta_Core_Form {
 	 */
 	private $field_map = array();
 
+	private $fields = array();
+
 	/**
 	 * construct
 	 * @param string $action Form action
@@ -37,6 +39,11 @@ class Deta_Core_Form {
 	{
 		$this->action = $action;
 		$this->method = $method;
+	}
+
+	public function fields()
+	{
+		return $this->fields;
 	}
 
 	/**
@@ -49,65 +56,77 @@ class Deta_Core_Form {
 		return new self($action, $method);
 	}
 
-	public function section_input($label, $field)
+	public function field($field)
 	{
-		if ( ! ($field instanceof Deta_Core_Field) && ! ($field instanceof Deta_Core_Field_Collection))
+		if (is_string($field))
 		{
-			throw new Exception('Field must be an instance of Deta_Core_Field or Deta_Core_Field_Collection');
+			return $this->get_field($field);
 		}
-
-		if ( ! ($field instanceof Deta_Core_Field_Collection))
+		elseif ($field instanceof Deta_Core_Field)
 		{
-			$collection = new Deta_Core_Field_Collection;
-			$collection->append($field);
+			$this->add_field($field);
+			return $this;
 		}
 		else
 		{
-			$collection = $field;
+			throw new Exception('field must be a string to get a field or a Deta_Core_Field instance to add it');
 		}
+	}
 
-		for ($i = 0, $c = count($collection); $i < $c; ++$i)
-		{
-			$this->field_map[$collection[$i]->name()] = array($label, $i);
-		}
-
-		$this->sections[$label] = array(
-			'fields' => $collection
-		);
-
+	public function add_field(Deta_Core_Field $field)
+	{
+		$this->fields[] = $field;
+		$this->field_map[$field->name()] = count($this->fields)-1;
 		return $this;
 	}
 
-	public function field($name)
+	public function custom($html)
 	{
-		$map = $this->field_map[$name];
-		return $this->sections[$map[0]]['fields'][$map[1]];
+		$this->add_field(Deta_Core_Field::factory('html')->value($html));
+		return $this;
 	}
 
-	public function field_key($field, $key, $value = NULL)
+	public function get_field($name)
 	{
-		if (isset($this->field_map[$field]))
+		if (isset($this->field_map[$name]) && isset($this->fields[$this->field_map[$name]]))
 		{
-			$this->fields[$this->field_map[$field]][$key] = $value;
+			return $this->fields[$this->field_map[$name]];
 		}
-	}
-
-	public function value($field, $value)
-	{
-		$this->field_key($field, 'value', $value);
-	}
-
-	public function values($values)
-	{
-		foreach ($values as $k => $v)
+		elseif (isset($this->fields[$this->field_map[$name.'[]']]))
 		{
-			$this->value($k, $v);
+			return $this->fields[$this->field_map[$name.'[]']];
 		}
+		return NULL;
+	}
+
+	public function value($field, $value, $deactivate_others = TRUE)
+	{
+		$f = $this->field($field);
+		if ($f)
+		{
+			$f->value($value, $deactivate_others);
+		}
+		return $this;
+	}
+
+	public function values($field, $values, $deactivate_others = TRUE)
+	{
+		$f = $this->field($field);
+		if ($f && method_exists($f, 'values'))
+		{
+			$f->values($values, $deactivate_others);
+		}
+		return $this;
 	}
 
 	public function error($field, $error)
 	{
-		$this->field_key($field, 'error', $error);
+		$f = $this->field($field);
+		if ($f)
+		{
+			$f->error($error);
+		}
+		return $this;
 	}
 
 	/** 
@@ -121,7 +140,10 @@ class Deta_Core_Form {
 		{
 			foreach ($errors['_external'] as $k => $v)
 			{
-				$this->error($k, $v);
+				if (isset($this->field_map[$k]))
+				{
+					$this->error($k, $v);
+				}
 			}
 		}
 		foreach ($errors as $k => $v)
@@ -131,7 +153,6 @@ class Deta_Core_Form {
 				$this->error($k, $v);
 			}
 		}
-
 		return $this;
 	}
 }

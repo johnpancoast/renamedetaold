@@ -13,7 +13,7 @@ class Deta_Core_Field_Option_Collection extends ArrayObject {
 	{
 		foreach ($options AS $option)
 		{
-			$this->option($option[0], $option[1], (isset($option[2]) ? $option[2] : FALSE));
+			$this->option($option[0], $option[1], (isset($option[2]) ? $option[2] : FALSE), (isset($option[3]) ? $option[3] : NULL));
 		}
 	}
 
@@ -22,9 +22,9 @@ class Deta_Core_Field_Option_Collection extends ArrayObject {
 		return new self($options);
 	}
 
-	public function option($key, $value = NULL, $active = FALSE)
+	public function option($value, $text, $active = FALSE, $option_name = NULL)
 	{
-		$this->append(Deta_Core_Field_Option::factory($key, $value, $active));
+		$this->append(Deta_Core_Field_Option::factory($value, $text, $active, $option_name));
 		return $this;
 	}
 

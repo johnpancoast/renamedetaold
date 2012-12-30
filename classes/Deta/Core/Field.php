@@ -8,20 +8,22 @@ class Deta_Core_Field {
 	private $error = NULL;
 	private $placeholder = NULL;
 
-	protected function __construct($type, $name, $label = NULL, $value = NULL, $placeholder = NULL, $error = NULL)
+	protected function __construct($type, $name = NULL, $label = NULL, $placeholder = NULL)
 	{
+		$name = $name ? $name : $type.'-noname-'.mt_rand(0000, 9999);
 		$this->type($type);
 		$this->name($name);
-		$this->label($label);
+		$this->label($label ? $label : ucfirst($name));
 		$this->placeholder($placeholder);
-		$this->value($value);
-		$this->error($error);
+
+		// a special property for mustache to test for the type
+		$this->{$type} = TRUE;
 	}
 
-	public static function factory($type, $name, $label = NULL, $value = NULL, $placeholder = NULL, $error = NULL)
+	public static function factory($type, $name = NULL, $label = NULL, $placeholder = NULL)
 	{
 		$class = 'Deta_Core_Field_Driver_'.ucfirst($type);
-		return new $class($type, $name, $label, $value, $placeholder, $error);
+		return new $class($type, $name, $label, $placeholder);
 	}
 
 	public function name($name = NULL)
@@ -72,11 +74,6 @@ class Deta_Core_Field {
 		}
 		$this->value = $value;
 		return $this;
-	}
-
-	public function values($values = NULL)
-	{
-		return $this->value($values);
 	}
 
 	public function error($error = NULL)
