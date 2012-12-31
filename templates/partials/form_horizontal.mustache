@@ -1,0 +1,91 @@
+<form class="form-horizontal" method="{{method}}" {{#action}}action="{{action}}"{{/action}}>
+{{#fields}}
+	{{#text}}
+		<div class="control-group {{#error}}error{{/error}}">
+			<label class="control-label" for="input{{label}}">{{label}}</label>
+			<div class="controls">
+				<input name="{{name}}" type="text" id="input{{label}}" value="{{value}}" {{#placeholder}}placeholder="{{placeholder}}{{/placeholder}}"/>
+				{{#error}}
+					<span class="help-inline">{{error}}</span>
+				{{/error}}
+			</div>
+		</div>
+	{{/text}}
+
+	{{#password}}
+		<div class="control-group {{#error}}error{{/error}}">
+			<label class="control-label" for="input{{label}}">{{label}}</label>
+			<div class="controls">
+				<input name="{{name}}" type="password" id="input{{label}}" {{#placeholder}}placeholder="{{placeholder}}{{/placeholder}}"/>
+				{{#error}}
+					<span class="help-inline">{{error}}</span>
+				{{/error}}
+			</div>
+		</div>
+	{{/password}}
+
+	{{#checkbox}}
+		<div class="control-group {{#error}}error{{/error}}">
+			<label class="control-label" for="input{{label}}">{{label}}</label>
+			<div class="controls">
+				{{#options}}
+					<label class="checkbox">
+						<input type="checkbox" name="{{name}}" value="{{value}}" {{#active}}checked="checked"{{/active}} /> {{text}}
+					</label>
+				{{/options}}
+				{{#error}}
+					<span class="help-inline">{{error}}</span>
+				{{/error}}
+			</div>
+		</div>
+	{{/checkbox}}
+
+	{{#radio}}
+		<div class="control-group {{#error}}error{{/error}}">
+			<label class="control-label" for="input{{label}}">{{label}}</label>
+			<div class="controls">
+				{{#options}}
+					<label class="radio">
+						<input type="radio" name="{{#option_name}}{{option_name}}{{/option_name}}{{^option_name}}{{name}}{{/option_name}}" value="{{value}}" {{#active}}checked="checked"{{/active}} /> {{text}}
+					</label>
+				{{/options}}
+				{{#error}}
+					<span class="help-inline">{{error}}</span>
+				{{/error}}
+			</div>
+		</div>
+	{{/radio}}
+
+	{{#select}}
+		<div class="control-group {{#error}}error{{/error}}">
+			<label class="control-label" for="input{{label}}">{{label}}</label>
+			<div class="controls">
+				<select name="{{name}}" id="input{{label}}">
+					{{#options}}
+						<option value="{{value}}" {{#active}}selected="selected"{{/active}}>{{text}}</option>
+					{{/options}}
+				</select>
+				{{#error}}
+					<span class="help-inline">{{error}}</span>
+				{{/error}}
+			</div>
+		</div>
+	{{/select}}
+
+	{{#submit}}
+		<div class="control-group">
+			<div class="controls">
+			  <button type="submit" class="btn">{{label}}</button>
+			</div>
+		</div>
+	{{/submit}}
+
+	{{#hidden}}
+		<input type="hidden" name="{{name}}" value="{{value}}"/>
+	{{/hidden}}
+
+	{{#html}}
+		{{{value}}}
+	{{/html}}
+{{/fields}}
+</form>
