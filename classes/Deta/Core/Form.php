@@ -132,7 +132,7 @@ class Deta_Core_Form {
 	 * @param string $value The value.
 	 * @return self For chaining
 	 */
-	public function value($field, $value)
+	public function field_value($field, $value)
 	{
 		$f = $this->field($field);
 		if ($f)
@@ -153,7 +153,7 @@ class Deta_Core_Form {
 	 * @param bool $deactivate_others Do we deactivate other value's that were previously set for this field.
 	 * @return self For chaining
 	 */
-	public function values($field, $values, $deactivate_others = TRUE)
+	public function field_values($field, $values, $deactivate_others = TRUE)
 	{
 		$f = $this->field($field);
 		if ($f && method_exists($f, 'values'))
@@ -170,7 +170,7 @@ class Deta_Core_Form {
 	 * @param string $error The error.
 	 * @return self For chaining.
 	 */
-	public function error($field, $error)
+	public function field_error($field, $error)
 	{
 		$f = $this->field($field);
 		if ($f)
@@ -181,6 +181,23 @@ class Deta_Core_Form {
 	}
 
 	/** 
+	 * Set form values for many fields at once.
+	 *
+	 * Note that $values should be an array of arrays with keys representing field names and values which are value strings.
+	 *
+	 * access public
+	 * @param array $values Should be in format seen above.
+	 * @return self For chaining
+	 */
+	public function values(array $values)
+	{
+		foreach ($values AS $k => $v)
+		{
+			$this->field_value($k, $v);
+		}
+	}
+
+	/**
 	 * Set form errors for many fields at once.
 	 *
 	 * Note that $errors should be an array of arrays with keys representing field names and values which are error strings.
@@ -199,7 +216,7 @@ class Deta_Core_Form {
 			{
 				if (isset($this->field_map[$k]))
 				{
-					$this->error($k, $v);
+					$this->field_error($k, $v);
 				}
 			}
 		}
@@ -207,7 +224,7 @@ class Deta_Core_Form {
 		{
 			if (isset($this->field_map[$k]))
 			{
-				$this->error($k, $v);
+				$this->field_error($k, $v);
 			}
 		}
 		return $this;
