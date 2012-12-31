@@ -2,6 +2,9 @@ deta
 ====
 Just another form module for [Kohana](http://kohanaframework.org/) written primarily because I want my own APIs.
 
+## License
+This software is licensed under the MIT license. See LICENSE.
+
 ## Version 0.0.0
 This is version 0.0.0. No development has been done yet! =)
 
