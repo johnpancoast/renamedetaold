@@ -1,14 +1,19 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
+/**
+ * A collection of field options.
+ *
+ * @package Deta
+ * @author John Pancoast <shideon@gmail.com>
+ * @copyright 2012-2013 John Pancoast
+ * @license http://opensource.org/licenses/MIT MIT
+ */
 class Deta_Core_Field_Option_Collection extends ArrayObject {
-	/*
-	public function field($type, $name, $label = NULL, $value = NULL, $placeholder = NULL, $error = NULL)
-	{
-		$this->append(Deta_Core_field::factory($type, $name, $label, $value, $placeholder, $error));
-		return $this;
-	}
-	*/
-
+	/**
+	 * Constructor.
+	 * @access public
+	 * @param array $options Field options to load into collection.
+	 */
 	public function __construct(array $options = array())
 	{
 		foreach ($options AS $option)
@@ -17,35 +22,39 @@ class Deta_Core_Field_Option_Collection extends ArrayObject {
 		}
 	}
 
+	/** 
+	 * Factory method for chaining.
+	 * @static
+	 * @access public
+	 * @param array $options Field options to load into collection.
+	 */
 	public static function factory(array $options = array())
 	{
 		return new self($options);
 	}
 
+	/**
+	 * Add an option.
+	 * @access public
+	 * @param string $value Opiton value.
+	 * @param string $text Option text.
+	 * @param bool $active Is the field active, as-in, valid or checked.
+	 * @param string $option_name Option name.
+	 * @return self For chaining.
+	 */
 	public function option($value, $text, $active = FALSE, $option_name = NULL)
 	{
 		$this->append(Deta_Core_Field_Option::factory($value, $text, $active, $option_name));
 		return $this;
 	}
 
-	/*
-	public function active_keys($keys, $deactivate_others = TRUE)
-	{
-		foreach ($this AS $k => $v)
-		{
-			if ((is_string($keys) && $k == $key) || (is_array($keys) && in_array($k, $keys)))
-			{
-				$v->active(TRUE);
-			}
-			elseif ($deactivate_others)
-			{
-				$v->active(FALSE);
-			}
-		}
-		return $this;
-	}
-	*/
-
+	/**
+	 * Set active values.
+	 * @access public
+	 * @param mixed $values The value(s) to set. Can be array or string.
+	 * @param bool $deactivate_others Do we deactivate other values.
+	 * @return self For chaining.
+	 */
 	public function active_values($values, $deactivate_others = TRUE)
 	{
 		foreach ($this AS $v)
@@ -63,7 +72,7 @@ class Deta_Core_Field_Option_Collection extends ArrayObject {
 	}
 
 	/**
-	 * add a value to array by key. overrides parent to ensure value is field instance
+	 * Add a value to array by key. overrides parent to ensure value is field instance
 	 * @access public
 	 * @param $index string An array key
 	 * @param $value Deta_Core_Field_Option An instance of Deta_Core_Field_Option
@@ -79,7 +88,7 @@ class Deta_Core_Field_Option_Collection extends ArrayObject {
 	}
 
 	/**
-	 * add a value to array. overrides parent to ensure value is field instance
+	 * Add a value to array. overrides parent to ensure value is field instance
 	 * @access public
 	 * @param $value Deta_Core_Field_Option An instance of Deta_Core_Field_Option
 	 * @see http://www.php.net/manual/en/arrayobject.append.php

@@ -1,26 +1,31 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
 /**
- * form builder
+ * Form builder
+ *
+ * @package Deta
+ * @author John Pancoast <shideon@gmail.com>
+ * @copyright 2012-2013 John Pancoast
+ * @license http://opensource.org/licenses/MIT MIT
  */
 class Deta_Core_Form {
 	/**
-	 * @var string form action
+	 * @var string Form action
 	 * @access public
 	 */
 	public $action = NULL;
 
 	/** 
-	 * @var string form method
+	 * @var string Form method
 	 * @access public
 	 */
 	public $method = 'POST';
 
 	/**
-	 * @var array form sections
+	 * @var array Form fields
 	 * @access public
 	 */
-	public $sections = array();
+	public $fields = array();
 
 	/**
 	 * @var array field map of name to index (we leave fields as index'd array for kostache looping purposes)
@@ -28,10 +33,9 @@ class Deta_Core_Form {
 	 */
 	private $field_map = array();
 
-	private $fields = array();
-
 	/**
-	 * construct
+	 * constructor
+	 * @access public
 	 * @param string $action Form action
 	 * @param string $method Form method
 	 */
@@ -39,11 +43,6 @@ class Deta_Core_Form {
 	{
 		$this->action = $action;
 		$this->method = $method;
-	}
-
-	public function fields()
-	{
-		return $this->fields;
 	}
 
 	/**
@@ -56,6 +55,15 @@ class Deta_Core_Form {
 		return new self($action, $method);
 	}
 
+	/**
+	 * Add a field to, or retrieve one from, a form
+	 * @access public
+	 * @param mixed $field If retrieving a field, pass its string name. If adding a field,
+	 * must be an instance of Deta_Core_Field.
+	 * @return mixed Either a Deta_Core_Field instance of getting or self if adding.
+	 * @uses self::add_field() If adding
+	 * @uses self::get_field() If getting
+	 */
 	public function field($field)
 	{
 		if (is_string($field))
@@ -73,6 +81,12 @@ class Deta_Core_Form {
 		}
 	}
 
+	/**
+	 * Add a field to the form
+	 * @access public
+	 * @param Deta_Core_Field $field
+	 * @return self For chaining
+	 */
 	public function add_field(Deta_Core_Field $field)
 	{
 		$this->fields[] = $field;
@@ -80,35 +94,65 @@ class Deta_Core_Form {
 		return $this;
 	}
 
-	public function custom($html)
+	/**
+	 * Get a field
+	 * @access public
+	 * @param string $field The name of the field that we're targeting.
+	 * @return mixed Deta_Core_Field if found, NULL otherwise.
+	 */
+	public function get_field($field)
 	{
-		$this->add_field(Deta_Core_Field::factory('html')->value($html));
-		return $this;
-	}
-
-	public function get_field($name)
-	{
-		if (isset($this->field_map[$name]) && isset($this->fields[$this->field_map[$name]]))
+		if (isset($this->field_map[$field]) && isset($this->fields[$this->field_map[$field]]))
 		{
-			return $this->fields[$this->field_map[$name]];
+			return $this->fields[$this->field_map[$field]];
 		}
-		elseif (isset($this->fields[$this->field_map[$name.'[]']]))
+		elseif (isset($this->fields[$this->field_map[$field.'[]']]))
 		{
-			return $this->fields[$this->field_map[$name.'[]']];
+			return $this->fields[$this->field_map[$field.'[]']];
 		}
 		return NULL;
 	}
 
-	public function value($field, $value, $deactivate_others = TRUE)
+	/** 
+	 * Add custom code to the form
+	 * @access public
+	 * @param string $custom Custom code to be added to the form.
+	 * @return self For chaining
+	 */
+	public function custom($custom)
+	{
+		$this->add_field(Deta_Core_Field::factory('html')->value($custom));
+		return $this;
+	}
+
+	/** 
+	 * Set a field's value
+	 * @access public
+	 * @param string $field The name of the field that we're targeting.
+	 * @param string $value The value.
+	 * @return self For chaining
+	 */
+	public function value($field, $value)
 	{
 		$f = $this->field($field);
 		if ($f)
 		{
-			$f->value($value, $deactivate_others);
+			$f->value($value);
 		}
 		return $this;
 	}
 
+	/**
+	 * Set a field's values.
+	 * 
+	 * Note that this is only applicable to field's that can have multiple value's (select, radio, checkbox).
+	 * 
+	 * @access public
+	 * @param string $field The name of the field that we're targeting.
+	 * @param mixed $values The values.
+	 * @param bool $deactivate_others Do we deactivate other value's that were previously set for this field.
+	 * @return self For chaining
+	 */
 	public function values($field, $values, $deactivate_others = TRUE)
 	{
 		$f = $this->field($field);
@@ -119,6 +163,13 @@ class Deta_Core_Form {
 		return $this;
 	}
 
+	/**
+	 * Set an error for a field.
+	 * @access public
+	 * @param string $field The name of the field that we're targeting.
+	 * @param string $error The error.
+	 * @return self For chaining.
+	 */
 	public function error($field, $error)
 	{
 		$f = $this->field($field);
@@ -130,10 +181,16 @@ class Deta_Core_Form {
 	}
 
 	/** 
-	 * set form errors
-	 * @param array $errors Should be in format returned by Validation::errors() (field as key, message as value, _external allowed as well)
+	 * Set form errors for many fields at once.
+	 *
+	 * Note that $errors should be an array of arrays with keys representing field names and values which are error strings.
+	 * This field can take an array generated from {@link Validation::errors()}.
+	 * 
+	 * @access public
+	 * @param array $errors Should be in format seen above.
+	 * @return self For chaining
 	 */
-	public function errors($errors)
+	public function errors(array $errors)
 	{
 		// loop externals first
 		if (isset($errors['_external']))
