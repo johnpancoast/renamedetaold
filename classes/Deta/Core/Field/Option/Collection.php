@@ -44,7 +44,7 @@ class Deta_Core_Field_Option_Collection extends ArrayObject {
 	 */
 	public function option($value, $text, $active = FALSE, $option_name = NULL)
 	{
-		$this->append(Deta_Core_Field_Option::factory($value, $text, $active, $option_name));
+		$this->append(Deta_Field_Option::factory($value, $text, $active, $option_name));
 		return $this;
 	}
 

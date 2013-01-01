@@ -121,7 +121,7 @@ class Deta_Core_Form {
 	 */
 	public function custom($custom)
 	{
-		$this->add_field(Deta_Core_Field::factory('html')->value($custom));
+		$this->add_field(Deta_Field::factory('html')->value($custom));
 		return $this;
 	}
 

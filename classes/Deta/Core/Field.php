@@ -84,7 +84,7 @@ class Deta_Core_Field {
 	 */
 	public static function factory($type, $name = NULL, $label = NULL, $placeholder = NULL)
 	{
-		$class = 'Deta_Core_Field_Driver_'.ucfirst($type);
+		$class = 'Deta_Field_Driver_'.ucfirst($type);
 		return new $class($type, $name, $label, $placeholder);
 	}
 

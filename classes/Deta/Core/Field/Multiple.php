@@ -37,7 +37,7 @@ class Deta_Core_Field_Multiple extends Deta_Core_Field {
 		}
 		if (array($options))
 		{
-			$options = Deta_Core_Field_Option_Collection::factory($options);
+			$options = Deta_Field_Option_Collection::factory($options);
 		}
 		elseif ( ! ($options instanceof Deta_Core_Field_Option_Collection))
 		{
@@ -59,7 +59,7 @@ class Deta_Core_Field_Multiple extends Deta_Core_Field {
 	{
 		if ( ! $this->options)
 		{
-			$this->options = Deta_Core_Field_Option_Collection::factory();
+			$this->options = Deta_Field_Option_Collection::factory();
 		}
 		$this->options->option($value, $text, $active);
 		return $this;
