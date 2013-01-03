@@ -1,0 +1,22 @@
+<table class="{{table_class}}">
+	<thead>
+		<tr>
+			{{#fields}}
+					<th>
+						{{label}}
+					</th>
+			{{/fields}}
+		</tr>
+	</thead>
+	<tbody>
+		{{#data}}
+			<tr>
+				{{#.}}
+					<td>
+						{{.}}
+					</td>
+				{{/.}}
+			</tr>
+		{{/data}}
+	</tbody>
+</table>
