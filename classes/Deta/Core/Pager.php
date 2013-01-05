@@ -13,13 +13,13 @@
  * allows view template designers to do what they wish.
  *
  *	// pager example using an ORM model
- * 	$pager = Deta_Pager::factory('ORM')
+ *	$pager = Deta_Pager::factory('ORM')
  *		->model(ORM::factory('user'))
- *  	->fields(array(
+ *		->fields(array(
  *			id, // strings are ok
- *      	array('username', 'Username Label'), // arrays allow labels to be set manually
- *      	array('email', 'Email'),
- *   	))
+ *			array('username', 'Username Label'), // arrays allow labels to be set manually
+ *			array('email', 'Email'),
+ *		))
  *		// executes final code/search, prepares data for view to work with
  *		->as_array();
  *
