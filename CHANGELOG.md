@@ -1,3 +1,6 @@
+## 0.2.0
+* Pager with ORM support
+
 ## 0.1.0
 * Core form API
 
