@@ -1,0 +1,41 @@
+<ul>
+	{{#pagination.first}}
+		{{#disabled}}
+			<li class="disabled"><a href="#">First</a></li>
+		{{/disabled}}
+		{{^disabled}}
+			<li><a href="{{href}}">First</a></li>
+		{{/disabled}}
+	{{/pagination.first}}
+
+	{{#pagination.previous}}
+		{{#disabled}}
+			<li class="disabled"><a href="#">Prev</a></li>
+		{{/disabled}}
+		{{^disabled}}
+			<li><a href="{{href}}">Prev</a></li>
+		{{/disabled}}
+	{{/pagination.previous}}
+
+	{{#pagination.pages}}
+		<li class="{{#active}}active{{/active}}{{#disabled}}disabled{{/disabled}}"><a href="{{href}}">{{page}}</a></li>
+	{{/pagination.pages}}
+
+	{{#pagination.next}}
+		{{#disabled}}
+			<li class="disabled"><a href="#">Next</a></li>
+		{{/disabled}}
+		{{^disabled}}
+			<li><a href="{{href}}">Next</a></li>
+		{{/disabled}}
+	{{/pagination.next}}
+
+	{{#pagination.last}}
+		{{#disabled}}
+			<li class="disabled"><a href="#">Last</a></li>
+		{{/disabled}}
+		{{^disabled}}
+			<li><a href="{{href}}">Last</a></li>
+		{{/disabled}}
+	{{/pagination.last}}
+</ul>

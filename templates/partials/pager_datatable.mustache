@@ -1,16 +1,26 @@
-<table class="{{table_class}}">
+<div class="pagination pagination-small pagination-right">
+	{{>paginator}}
+</div>
+
+<table class="table table-striped">
 	<thead>
 		<tr>
 			{{#fields}}
 					<th>
-						{{label}}
+						<a href="{{label_href}}">{{label}}</a>
+						{{#sort_asc}}
+							<i class="icon-chevron-up"></i>
+						{{/sort_asc}}
+						{{#sort_desc}}
+							<i class="icon-chevron-down"></i>
+						{{/sort_desc}}
 					</th>
 			{{/fields}}
 		</tr>
 	</thead>
 	<tbody>
 		{{#data}}
-			<tr>
+			<tr>	
 				{{#.}}
 					<td>
 						{{.}}
@@ -20,3 +30,7 @@
 		{{/data}}
 	</tbody>
 </table>
+
+<div class="pagination pagination-small pagination-right">
+	{{>paginator}}
+</div>
