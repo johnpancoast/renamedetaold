@@ -362,6 +362,7 @@ class Deta_Core_Pager_ORM extends Deta_Core_Pager {
 	 */
 	public function prepare_pagination()
 	{
+		// FIXME - what the hell is all of this doing? seems unnecessary.
 		$page_count = (int)ceil($this->total / $this->limit);
 		$page = max(1, min($page_count, $this->page));
 
