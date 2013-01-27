@@ -11,7 +11,6 @@
  */
 class Deta_Core_Model {
 	protected $model = NULL;
-	protected $model_id = NULL;
 	public $object = NULL;
 
 	/**
@@ -56,6 +55,11 @@ class Deta_Core_Model {
 		foreach ($this->form_fields() AS $f)
 		{
 			$f->add_field($this->object, $form);
+		}
+
+		if ( ! $form->get_field(NULL, 'submit'))
+		{
+			$form->field(Deta_Form_Field::factory('submit', 'submit'));
 		}
 
 		return $form;

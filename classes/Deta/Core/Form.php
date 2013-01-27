@@ -98,17 +98,31 @@ class Deta_Core_Form {
 	 * Get a field
 	 * @access public
 	 * @param string $field The name of the field that we're targeting.
-	 * @return mixed Deta_Core_Form_Field if found, NULL otherwise.
+	 * @param string $type The type of the field we're targeting.
+	 * @return mixed Deta_Core_Form_Field if found (first match), NULL otherwise.
 	 */
-	public function get_field($field)
+	public function get_field($field = NULL, $type = NULL)
 	{
-		if (isset($this->field_map[$field]) && isset($this->fields[$this->field_map[$field]]))
+		if ($field)
 		{
-			return $this->fields[$this->field_map[$field]];
+			if (isset($this->field_map[$field]) && isset($this->fields[$this->field_map[$field]]))
+			{
+				return $this->fields[$this->field_map[$field]];
+			}
+			elseif (isset($this->fields[$this->field_map[$field.'[]']]))
+			{
+				return $this->fields[$this->field_map[$field.'[]']];
+			}
 		}
-		elseif (isset($this->fields[$this->field_map[$field.'[]']]))
+		elseif ($type)
 		{
-			return $this->fields[$this->field_map[$field.'[]']];
+			foreach ($this->fields AS $k => $v)
+			{
+				if ($v->type() == $type)
+				{
+					return $this->fields[$k];
+				}
+			}
 		}
 		return NULL;
 	}
