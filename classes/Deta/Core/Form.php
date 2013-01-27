@@ -59,8 +59,8 @@ class Deta_Core_Form {
 	 * Add a field to, or retrieve one from, a form
 	 * @access public
 	 * @param mixed $field If retrieving a field, pass its string name. If adding a field,
-	 * must be an instance of Deta_Core_Field.
-	 * @return mixed Either a Deta_Core_Field instance of getting or self if adding.
+	 * must be an instance of Deta_Core_Form_Field.
+	 * @return mixed Either a Deta_Core_Form_Field instance of getting or self if adding.
 	 * @uses self::add_field() If adding
 	 * @uses self::get_field() If getting
 	 */
@@ -70,24 +70,24 @@ class Deta_Core_Form {
 		{
 			return $this->get_field($field);
 		}
-		elseif ($field instanceof Deta_Core_Field)
+		elseif ($field instanceof Deta_Core_Form_Field)
 		{
 			$this->add_field($field);
 			return $this;
 		}
 		else
 		{
-			throw new Exception('field must be a string to get a field or a Deta_Core_Field instance to add it');
+			throw new Exception('field must be a string to get a field or a Deta_Core_Form_Field instance to add it');
 		}
 	}
 
 	/**
 	 * Add a field to the form
 	 * @access public
-	 * @param Deta_Core_Field $field
+	 * @param Deta_Core_Form_Field $field
 	 * @return self For chaining
 	 */
-	public function add_field(Deta_Core_Field $field)
+	public function add_field(Deta_Core_Form_Field $field)
 	{
 		$this->fields[] = $field;
 		$this->field_map[$field->name()] = count($this->fields)-1;
@@ -98,7 +98,7 @@ class Deta_Core_Form {
 	 * Get a field
 	 * @access public
 	 * @param string $field The name of the field that we're targeting.
-	 * @return mixed Deta_Core_Field if found, NULL otherwise.
+	 * @return mixed Deta_Core_Form_Field if found, NULL otherwise.
 	 */
 	public function get_field($field)
 	{
@@ -121,7 +121,7 @@ class Deta_Core_Form {
 	 */
 	public function custom($custom)
 	{
-		$this->add_field(Deta_Field::factory('html')->value($custom));
+		$this->add_field(Deta_Form_Field::factory('html')->value($custom));
 		return $this;
 	}
 
