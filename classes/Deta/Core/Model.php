@@ -11,6 +11,8 @@
  */
 class Deta_Core_Model {
 	protected $model = NULL;
+	protected $model_id = NULL;
+	private $errors = array();
 	public $object = NULL;
 
 	/**
@@ -22,6 +24,7 @@ class Deta_Core_Model {
 	 */
 	protected function __construct($id = NULL)
 	{
+		$this->model_id = $id;
 		$this->object = ORM::factory($this->model, $id);
 	}
 
@@ -57,11 +60,52 @@ class Deta_Core_Model {
 			$f->add_field($this->object, $form);
 		}
 
+		// add hidden field for id
+		$field = Deta_Form_Field::factory('hidden', 'id');
+		$field->value($this->model_id);
+		$form->field($field);
+
 		if ( ! $form->get_field(NULL, 'submit'))
 		{
 			$form->field(Deta_Form_Field::factory('submit', 'submit'));
 		}
 
+		$form->errors($this->errors());
+
 		return $form;
+	}
+
+	public function errors($errors = NULL)
+	{
+		if ($errors === NULL)
+		{
+			return $this->errors;
+		}
+		else
+		{
+			$this->errors = $errors;
+		}
+	}
+
+	public function save(array $values)
+	{
+		foreach ($this->form_fields() AS $f)
+		{
+			$name = $f->name();
+			if (isset($values[$name]))
+			{
+				$this->object->{$name} = $values[$name];
+			}
+		}
+
+		try
+		{
+			$this->object->save();
+		}
+		catch (ORM_Validation_Exception $e)
+		{
+			// just rethrow for client to handle stuff
+			throw $e;
+		}
 	}
 }
