@@ -33,4 +33,20 @@ abstract class Deta_Core_Model_Form_Field {
 		}
 		return $obj;
 	}
+
+	/**
+	 * Set or get field name.
+	 * @access public
+	 * @param string $name Field name.
+	 * @return mixed Field name if $name not provided or self otherwise (for chaining).
+	 */
+	public function name($name = NULL)
+	{
+		if ($name === NULL)
+		{
+			return $this->name;
+		}
+		$this->name = $name;
+		return $this;
+	}
 }
