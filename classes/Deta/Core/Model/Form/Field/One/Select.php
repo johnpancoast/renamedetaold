@@ -9,8 +9,7 @@ class Deta_Core_Model_Form_Field_One_Select extends Deta_Model_Form_Field {
 		{
 			if (isset($arr['foreign_key']) && $arr['foreign_key'] == $this->name)
 			{
-				// loop the options we find
-				foreach ($orm->{$rel}->find_all() AS $f)
+				foreach (ORM::factory($arr['model'])->find_all() AS $f)
 				{
 					$f = $f->as_array();
 					$options[] = array(
@@ -21,8 +20,11 @@ class Deta_Core_Model_Form_Field_One_Select extends Deta_Model_Form_Field {
 				}
 			}
 		}
-		$form->field(Deta_Form_Field::factory('select', $this->name, $this->label, $this->placeholder)
-			->options($options)
-		);
+		$field = Deta_Form_Field::factory('select', $this->name, $this->label, $this->placeholder);
+		if ( ! empty($options))
+		{
+			$field->options($options);
+		}
+		$form->field($field);
 	}
 }
