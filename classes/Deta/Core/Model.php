@@ -37,7 +37,7 @@ class Deta_Core_Model {
 	{
 		$class = 'Deta_Model_'.$deta_model;
 		$obj = new $class($id);
-		if ( ! ($obj instanceof Deta_Model))
+		if ( ! ($obj instanceof Deta_Core_Model))
 		{
 			throw new Exception('Deta model must extend Deta_Model');
 		}
@@ -46,7 +46,7 @@ class Deta_Core_Model {
 
 	public function get_form()
 	{
-		if ( ! ($this->object instanceof ORM))
+		if ( ! ($this->object instanceof Kohana_ORM))
 		{
 			throw new Exception('Deta_Model\'s object must be an instance of ORM');
 		}
