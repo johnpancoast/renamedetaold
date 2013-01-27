@@ -7,6 +7,8 @@
  * @author John Pancoast <shideon@gmail.com>
  * @copyright 2012-2013 John Pancoast
  * @license http://opensource.org/licenses/MIT MIT
+ *
+ * TODO - There's a bug with value(), error() etc when you require chaining but you're setting a null value
  */
 class Deta_Core_Form_Field {
 	/**
