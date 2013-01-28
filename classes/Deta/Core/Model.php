@@ -75,6 +75,15 @@ class Deta_Core_Model {
 		return $form;
 	}
 
+	public function get_pager()
+	{
+		$fields = $this->pager_fields();
+		return Deta_Pager::factory()
+			->model($this->object)
+			->fields($fields)
+			->as_array();
+	}
+
 	public function errors($errors = NULL)
 	{
 		if ($errors === NULL)

@@ -73,7 +73,14 @@ class Deta_Core_Pager_ORM extends Deta_Core_Pager {
 			$row = array();
 			foreach ($this->fields AS $f)
 			{
-				$row[] = $d->{$f['name']};
+				if ($f['model_field'])
+				{
+					$row[] = $f['model_field']->render_field($d);
+				}
+				else
+				{
+					$row[] = $d->{$f['name']};
+				}
 			}
 			$data[] = $row;
 		}

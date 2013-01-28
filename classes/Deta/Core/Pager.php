@@ -187,12 +187,23 @@ abstract class Deta_Core_Pager {
 	{
 		foreach ($fields AS $f)
 		{
-			$f = is_array($f) ? $f : array($f);
-			$this->fields[] = array(
-				'name' => $f[0],
-				'label' => (isset($f[1]) && ! empty($f[1])) ? $f[1] : $f[0]
-			);
-			$this->field_map[$f[0]] = count($this->fields)-1;
+			if ($f instanceof Deta_Core_Model_Pager_Field)
+			{
+				$this->fields[] = array(
+					'name' => $f->name(),
+					'label' => $f->label(),
+					'model_field' => $f
+				);
+			}
+			else
+			{
+				$f = is_array($f) ? $f : array($f);
+				$this->fields[] = array(
+					'name' => $f[0],
+					'label' => (isset($f[1]) && ! empty($f[1])) ? $f[1] : $f[0]
+				);
+				$this->field_map[$f[0]] = count($this->fields)-1;
+			}
 		}
 		return $this;
 	}
