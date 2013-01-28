@@ -23,7 +23,12 @@
 			<tr>	
 				{{#.}}
 					<td>
-						{{.}}
+						{{#escape}}
+							{{data}}
+						{{/escape}}
+						{{^escape}}
+							{{{data}}}
+						{{/escape}}
 					</td>
 				{{/.}}
 			</tr>

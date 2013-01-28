@@ -3,19 +3,21 @@
 abstract class Deta_Core_Model_Pager_Field {
 	protected $name = NULL;
 	protected $label = NULL;
+	protected $options = array();
 
 	abstract public function render_field(Kohana_ORM $orm);
 
-	protected function __construct($name, $label = NULL)
+	protected function __construct($name, $label = NULL, array $options = array())
 	{
 		$this->name = $name;
-		$this->label = $label ? $label : ucfirst($name);
+		$this->label = $label ? $label : ($name ? ucfirst($name) : NULL);
+		$this->options = $options;
 	}
 
-	public static function factory($type, $name, $label = NULL)
+	public static function factory($type, $name, $label = NULL, array $options = array())
 	{
 		$class = 'Deta_Model_Pager_Field_'.$type;
-		$obj = new $class($name, $label);
+		$obj = new $class($name, $label, $options);
 		if ( ! ($obj instanceof Deta_Core_Model_Pager_Field))
 		{
 			throw new Exception('Deta model field must be an instance of Deta_Core_Model_Pager_Field');
