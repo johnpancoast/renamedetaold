@@ -26,6 +26,11 @@ class Deta_Core_Model {
 	 * @access public
 	 */
 	public $object = NULL;
+
+	/**
+	 * @var array An array of model field errors
+	 * @access private
+	 */
 	private $errors = array();
 
 	/**
@@ -59,6 +64,11 @@ class Deta_Core_Model {
 		return $obj;
 	}
 
+	/**
+	 * Get form
+	 * @access public
+	 * @return Deta_Core_Form
+	 */
 	public function get_form()
 	{
 		if ( ! ($this->object instanceof Kohana_ORM))
@@ -88,6 +98,11 @@ class Deta_Core_Model {
 		return $form;
 	}
 
+	/**
+	 * Get pager
+	 * @access public
+	 * @return array
+	 */
 	public function get_pager()
 	{
 		$fields = $this->pager_fields();
@@ -97,6 +112,15 @@ class Deta_Core_Model {
 			->as_array();
 	}
 
+	/**
+	 * Set or get field errors
+	 *
+	 * Should be an array of field key's and their errors
+	 *
+	 * @access public
+	 * @param mixed $errors The error array or NULL to act as a getter
+	 * @return mixed
+	 */
 	public function errors($errors = NULL)
 	{
 		if ($errors === NULL)
@@ -109,6 +133,11 @@ class Deta_Core_Model {
 		}
 	}
 
+	/**
+	 * Save a model object using the passed values.
+	 * @param array $values The values with field names as keys and values as values
+	 * @access public
+	 */
 	public function save(array $values)
 	{
 		foreach ($this->form_fields() AS $f)
