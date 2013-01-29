@@ -1,7 +1,7 @@
 <?php defined('SYSPATH') OR die('No direct script access.');
 
-class Deta_Core_Model_Form_Field_One_Select extends Deta_Model_Form_Field {
-	public function add_field(Kohana_ORM $orm, Deta_Core_Form $form)
+class Deta_Core_Model_Field_Relation_One extends Deta_Model_Field {
+	public function add_form_field(Kohana_ORM $orm, Deta_Core_Form $form)
 	{
 		// find the options based on model relation
 		$options = array();
@@ -26,5 +26,16 @@ class Deta_Core_Model_Form_Field_One_Select extends Deta_Model_Form_Field {
 			$field->options($options);
 		}
 		$form->field($field);
+	}
+
+	public function render_pager_field(Kohana_ORM $orm)
+	{
+		foreach ($orm->belongs_to() AS $rel => $arr)
+		{
+			if (isset($arr['foreign_key']) && $arr['foreign_key'] == $this->name)
+			{
+				return $orm->{$rel}->name;
+			}
+		}
 	}
 }

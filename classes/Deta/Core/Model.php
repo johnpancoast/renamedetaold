@@ -78,15 +78,10 @@ class Deta_Core_Model {
 
 		$form = Deta_Form::factory();
 
-		foreach ($this->form_fields() AS $f)
+		foreach ($this->fields() AS $f)
 		{
-			$f->add_field($this->object, $form);
+			$f->add_form_field($this->object, $form);
 		}
-
-		// add hidden field for id
-		$field = Deta_Form_Field::factory('hidden', 'id');
-		$field->value($this->model_id);
-		$form->field($field);
 
 		if ( ! $form->get_field(NULL, 'submit'))
 		{
@@ -105,7 +100,7 @@ class Deta_Core_Model {
 	 */
 	public function get_pager()
 	{
-		$fields = $this->pager_fields();
+		$fields = $this->fields();
 		return Deta_Pager::factory()
 			->model($this->object)
 			->fields($fields)

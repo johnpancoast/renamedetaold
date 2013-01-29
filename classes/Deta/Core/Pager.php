@@ -187,7 +187,7 @@ abstract class Deta_Core_Pager {
 	{
 		foreach ($fields AS $f)
 		{
-			if ($f instanceof Deta_Core_Model_Pager_Field)
+			if ($f instanceof Deta_Core_Model_Field)
 			{
 				$this->fields[] = array(
 					'name' => $f->name(),

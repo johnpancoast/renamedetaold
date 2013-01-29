@@ -76,7 +76,7 @@ class Deta_Core_Pager_ORM extends Deta_Core_Pager {
 				if ($f['model_field'])
 				{
 					$row[] = array(
-						'data' => $f['model_field']->render_field($d),
+						'data' => $f['model_field']->render_pager_field($d),
 						'escape' => (isset($f['options']['escape']) && $f['options']['escape']) !== TRUE ? FALSE : TRUE
 					);
 				}
