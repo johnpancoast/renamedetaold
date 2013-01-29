@@ -11,27 +11,45 @@
 class Deta_Core_Model {
 	/**
 	 * @var string ORM model
+	 *
 	 * @access protected
 	 */
 	protected $model = NULL;
 
 	/**
 	 * @var int ORM model object id
+	 *
 	 * @access protected
 	 */
 	protected $model_id = NULL;
 
 	/**
 	 * @var Kohana_ORM An ORM model instance
+	 *
 	 * @access public
 	 */
 	public $object = NULL;
 
 	/**
 	 * @var array An array of model field errors
+	 *
 	 * @access private
 	 */
 	private $errors = array();
+
+	/**
+	 * @var array An array of pager buttons
+	 *
+	 * @access private
+	 */
+	private $pager_buttons = array();
+
+	/**
+	 * @var array An array of pager actions
+	 *
+	 * @access private
+	 */
+	private $pager_actions = array();
 
 	/**
 	 * Constructor.
@@ -101,10 +119,84 @@ class Deta_Core_Model {
 	public function get_pager()
 	{
 		$fields = $this->fields();
-		return Deta_Pager::factory()
+		$pager = Deta_Pager::factory()
 			->model($this->object)
-			->fields($fields)
-			->as_array();
+			->fields($fields);
+
+		if ( ! empty($this->pager_buttons))
+		{
+			$pager->buttons($this->pager_buttons);
+		}
+
+		if ( ! empty($this->pager_actions))
+		{
+			$pager->actions($this->pager_actions);
+		}
+
+		return $pager->as_array();
+	}
+
+	/**
+	 * Set or get pager buttons
+	 *
+	 * Buttons are global "actions" for a pager and are displayed either
+	 * above or below the pager.
+	 *
+	 * Should be an array like so
+	 * array(
+	 *   '<name>' => array(
+	 *      'text' => '<button text>',
+	 *      'link' => '<button link>',
+	 *		'options' => array(options),
+	 *   )
+	 * )
+	 * <name> = A button in classes/Deta/Model/PagerButton/
+	 *
+	 * @access public
+	 * @param mixed $buttons The button or NULL to act as a getter
+	 * @return mixed
+	 */
+	public function buttons($buttons = NULL)
+	{
+		if ($buttons === NULL)
+		{
+			return $this->pager_buttons;
+		}
+		else
+		{
+			$this->pager_buttons = $buttons;
+		}
+	}
+
+	/**
+	 * Set or get pager actions
+	 *
+	 * Actions are actions for each row of a pager. For example, edit link.
+	 *
+	 * Should be an array like so
+	 * array(
+	 *   '<name>' => array(
+	 *      'text' => '<action text>',
+	 *      'link' => '<action link>',
+	 *      'options' => array(options),
+	 *   )
+	 * )
+	 * <name> = An action in classes/Deta/Model/PagerAction/
+	 *
+	 * @access public
+	 * @param mixed $actions The action or NULL to act as a getter
+	 * @return mixed
+	 */
+	public function actions($actions = NULL)
+	{
+		if ($actions === NULL)
+		{
+			return $this->pager_actions;
+		}
+		else
+		{
+			$this->pager_actions = $actions;
+		}
 	}
 
 	/**

@@ -1,41 +1,62 @@
-<div class="pagination pagination-small pagination-right">
-	{{>paginator}}
-</div>
 
-<table class="table table-striped">
-	<thead>
-		<tr>
-			{{#fields}}
-					<th>
-						<a href="{{label_href}}">{{label}}</a>
-						{{#sort_asc}}
-							<i class="icon-chevron-up"></i>
-						{{/sort_asc}}
-						{{#sort_desc}}
-							<i class="icon-chevron-down"></i>
-						{{/sort_desc}}
-					</th>
-			{{/fields}}
-		</tr>
-	</thead>
-	<tbody>
-		{{#data}}
-			<tr>	
-				{{#.}}
-					<td>
-						{{#escape}}
-							{{data}}
-						{{/escape}}
-						{{^escape}}
-							{{{data}}}
-						{{/escape}}
-					</td>
-				{{/.}}
+<div class="deta-pager">
+	<div class="deta-pager-control deta-pager-control-left">
+		{{#buttons}}
+			{{#top}}
+				{{{button}}}
+			{{/top}}
+		{{/buttons}}
+	</div>
+	<div class="deta-pager-control deta-pager-control-right">
+		<div class="pagination pagination-small pagination-right">
+			{{>paginator}}
+		</div>
+	</div>
+
+	<table class="table table-striped">
+		<thead>
+			<tr>
+				{{#fields}}
+						<th>
+							<a href="{{label_href}}">{{label}}</a>
+							{{#sort_asc}}
+								<i class="icon-chevron-up"></i>
+							{{/sort_asc}}
+							{{#sort_desc}}
+								<i class="icon-chevron-down"></i>
+							{{/sort_desc}}
+						</th>
+				{{/fields}}
 			</tr>
-		{{/data}}
-	</tbody>
-</table>
+		</thead>
+		<tbody>
+			{{#data}}
+				<tr>	
+					{{#.}}
+						<td>
+							{{#escape}}
+								{{data}}
+							{{/escape}}
+							{{^escape}}
+								{{{data}}}
+							{{/escape}}
+						</td>
+					{{/.}}
+				</tr>
+			{{/data}}
+		</tbody>
+	</table>
 
-<div class="pagination pagination-small pagination-right">
-	{{>paginator}}
+	<div class="deta-pager-control deta-pager-control-left">
+		{{#buttons}}
+			{{#bottom}}
+				{{{button}}}
+			{{/bottom}}
+		{{/buttons}}
+	</div>
+	<div class="deta-pager-control deta-pager-control-right">
+		<div class="pagination pagination-small pagination-right">
+			{{>paginator}}
+		</div>
+	</div>
 </div>

@@ -38,6 +38,7 @@ abstract class Deta_Core_Pager {
 
 	/** 
 	 * @var array A map of field names to their positions in self::$fields.
+	 *
 	 * @access protected
 	 */
 	protected $field_map = array();
@@ -56,42 +57,49 @@ abstract class Deta_Core_Pager {
 
 	/**
 	 * @var mixed Model instance.
+	 *
 	 * @access protected
 	 */
 	protected $model = NULL;
 
 	/**
 	 * @var array An array of where's for ORM query.
+	 *
 	 * @access protected
 	 */
 	protected $where = array();
 
 	/**
 	 * @var array An array of order by's for ORM query.
+	 *
 	 * @access protected
 	 */
 	protected $order_by = array();
 
 	/**
 	 * @var int ORM query limit.
+	 *
 	 * @access protected
 	 */
 	protected $limit = 20;
 
 	/**
 	 * @var int ORM query limit offset.
+	 *
 	 * @access protected
 	 */
 	protected $limit_offset = 0;
 
 	/** 
 	 * @var int The page we're on.
+	 *
 	 * @access protected
 	 */
 	protected $page = 1;
 
 	/**
 	 * @var int The total count of "rows".
+	 *
 	 * @access protected
 	 */
 	protected $total = 0;
@@ -107,7 +115,22 @@ abstract class Deta_Core_Pager {
 	protected $page_display_total = 5;
 
 	/**
+	 * @var array An array of pager buttons
+	 *
+	 * @access private
+	 */
+	private $buttons = array();
+
+	/**
+	 * @var array An array of pager actions
+	 *
+	 * @access private
+	 */
+	private $actions = array();
+
+	/**
 	 * @var array An array of query operators.
+	 *
 	 * @access protected
 	 * @static
 	 */
@@ -124,24 +147,36 @@ abstract class Deta_Core_Pager {
 
 	/**
 	 * @var string Query string key that all pager values are held in.
+	 *
 	 * @access public
 	 */
 	public $query_string_key = 'pgr';
 
 	/**
 	 * @var string String that separates a search operator from a search value.
+	 *
 	 * @access public
 	 */
 	public $search_operator_separator = ';';
 
 	/**
 	 * @var string String that separates multiple search values mainly for IN searches.
+	 *
 	 * @access public
 	 */
 	public $search_separator = ',';
 
 	/**
+	 * @var string A string that separates pager actions
+	 *
+	 * @access protected
+	 * @todo allow this to be changed
+	 */
+	protected $action_separator = ' | ';
+
+	/**
 	 * Prepare data.
+	 *
 	 * @access public
 	 * @abstract
 	 * @return array Array of rendered data from query. Will be passed to self::data().
@@ -162,6 +197,7 @@ abstract class Deta_Core_Pager {
 
 	/**
 	 * Factory method.
+	 *
 	 * @access public
 	 * @param string $driver The driver class to load.
 	 * @return self
@@ -228,6 +264,7 @@ abstract class Deta_Core_Pager {
 
 	/**
 	 * Set model
+	 *
 	 * @access public
 	 * @param mixed $model
 	 * @return self
@@ -240,6 +277,7 @@ abstract class Deta_Core_Pager {
 
 	/**
 	 * Get ORM model
+	 *
 	 * @access public
 	 * @return Kohana_Model
 	 */
@@ -250,6 +288,7 @@ abstract class Deta_Core_Pager {
 
 	/**
 	 * Set or get ORM model.
+	 *
 	 * @access public
 	 * @param mixed $model Null makes method as getter. Passing Kohana_Model acts as setter.
 	 * @return mixed
@@ -265,6 +304,7 @@ abstract class Deta_Core_Pager {
 
 	/**
 	 * Set ORM where
+	 *
 	 * @access public
 	 * @param string $field The field.
 	 * @param string $op The operator.
@@ -279,6 +319,7 @@ abstract class Deta_Core_Pager {
 
 	/**
 	 * Set ORM order by.
+	 *
 	 * @access public
 	 * @param string $field The field.
 	 * @param bool $ascending Is the order by ascending? If false, it's descending.
@@ -292,6 +333,7 @@ abstract class Deta_Core_Pager {
 
 	/**
 	 * Set ORM limit.
+	 *
 	 * @access public
 	 * @param int $limit The limit amoint.
 	 * @return self
@@ -304,6 +346,7 @@ abstract class Deta_Core_Pager {
 
 	/**
 	 * Set ORM limit offset.
+	 *
 	 * @access public
 	 * @param int $offset The limit offset amoint.
 	 * @return self
@@ -399,6 +442,7 @@ abstract class Deta_Core_Pager {
 
 	/**
 	 * construct search params from current search and sort values.
+	 *
 	 * @access public
 	 * @return array Constructed how set_search_params() expects array.
 	 * @link self::set_search_params()
@@ -449,6 +493,7 @@ abstract class Deta_Core_Pager {
 
 	/**
 	 * Get an operator suitable for ORM query.
+	 *
 	 * @access public
 	 * @param string $public_operator A key in self::$operators.
 	 * @return string Operator
@@ -464,6 +509,7 @@ abstract class Deta_Core_Pager {
 
 	/**
 	 * Get an operator suitable for public query string.
+	 *
 	 * @access public
 	 * @param string $public_operator A value in self::$operators.
 	 * @return string Operator
@@ -480,6 +526,7 @@ abstract class Deta_Core_Pager {
 
 	/**
 	 * Make a link to the pager given our current search/sort and the changed values passed.
+	 *
 	 * @access public
 	 * @param int $changed_page Changed page of the link.
 	 * @param array $changed_sort Changed sort of the link.
@@ -507,7 +554,85 @@ abstract class Deta_Core_Pager {
 	}
 
 	/**
+	 * Set or get pager buttons
+	 *
+	 * Buttons are global "actions" for a pager and are displayed either
+	 * above or below the pager.
+	 *
+	 * Should be an array like so
+	 * array(
+	 *   '<name>' => array(
+	 *      'text' => '<button text>',
+	 *      'link' => '<button link>'
+	 *      'top' => <bool>, // do we display on top (default true)
+	 *      'bottom' => <boo> // do we display on bottom (default false)
+	 *   )
+	 * )
+	 * <name> = A button in classes/Deta/Model/PagerButton/
+	 *
+	 * @access public
+	 * @param mixed $buttons The button or NULL to act as a getter
+	 * @return mixed
+	 */
+	public function buttons($buttons = NULL)
+	{
+		if ($buttons === NULL)
+		{
+			return $this->buttons;
+		}
+		else
+		{
+			$this->buttons = $buttons;
+		}
+
+		return $this;
+	}
+
+	/**
+	 * Set or get pager actions
+	 *
+	 * Actions are actions for each row of a pager. For example, edit link.
+	 *
+	 * Should be an array like so
+	 * array(
+	 *   '<name>' => array(
+	 *      'text' => '<action text>',
+	 *      'link' => '<action link>'
+	 *   )
+	 * )
+	 * <name> = An action in classes/Deta/Model/PagerAction/
+	 *
+	 * @access public
+	 * @param mixed $actions The action or NULL to act as a getter
+	 * @return mixed
+	 */
+	public function actions($actions = NULL)
+	{
+		if ($actions === NULL)
+		{
+			return $this->actions;
+		}
+		else
+		{
+			$this->actions = $actions;
+		}
+
+		return $this;
+	}
+
+	public function prepare_buttons()
+	{
+		$buttons = array();
+		foreach ($this->buttons AS $name => $array)
+		{
+			$buttons[] = Deta_Model_PagerButton::factory($name, $array['text'], $array['link'], isset($array['options']) ? $array['options'] : array())->render_button();
+		}
+		$this->buttons = $buttons;
+	}
+
+	/**
 	 * Given our current search/sort data, prepare an array of data for pagination.
+	 *
 	 * @access public
 	 */
 	public function prepare_pagination()
@@ -533,6 +658,7 @@ abstract class Deta_Core_Pager {
 
 	/**
 	 * Given our current search/sort data, prepare the fields adding relevant sort and link data.
+	 *
 	 * @access public
 	 */
 	public function prepare_fields()
@@ -559,10 +685,16 @@ abstract class Deta_Core_Pager {
 			}
 			$this->fields[$i]['label_href'] = $this->make_link(NULL, array($name, $asc));
 		}
+
+		if ( ! empty($this->actions))
+		{
+			array_unshift($this->fields, array('name' => NULL, 'label' => NULL));
+		}
 	}
 
 	/**
 	 * Set the current page.
+	 *
 	 * @access public
 	 * @param int $page The page
 	 * @return self
@@ -591,7 +723,28 @@ abstract class Deta_Core_Pager {
 	}
 
 	/**
+	 * Render actions for a data row
+	 *
+	 * @access protected
+	 * @param Kohana_ORM $orm 
+	 */
+	protected function render_actions(Kohana_ORM $orm)
+	{
+		$values = $orm->as_array();
+		foreach ($this->actions AS $name => $array)
+		{
+			$obj = Deta_Model_PagerAction::factory($name, $array['text'], $array['link'], isset($array['options']) ? $array['options'] : array());
+			$actions[] = $obj->render_action($values);
+		}
+		return array(
+			'escape' => FALSE,
+			'data' => implode($this->action_separator, $actions)
+		);
+	}
+
+	/**
 	 * Render relevant pager properties in an array.
+	 *
 	 * @access public
 	 * @param bool $set_search Do we set search params.
 	 * @return array
@@ -603,8 +756,10 @@ abstract class Deta_Core_Pager {
 			$this->set_search_params((array)Request::current()->query($this->query_string_key));
 		}
 		$this->data($this->render_data());
+		$this->prepare_buttons();
 		$this->prepare_fields();
 		$this->prepare_pagination();
+		$this->model = NULL;
 		return get_object_vars($this);
 	}
 }

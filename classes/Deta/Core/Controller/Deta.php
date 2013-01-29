@@ -22,7 +22,26 @@ class Deta_Core_Controller_Deta extends Controller_Base {
 
 	public function action_index()
 	{
-		$this->set_view('Deta_Index');
+		$view_data = array(
+			'buttons' => array(
+				'Add' => array(
+					'text' => 'Add New',
+					'link' => $this->deta_controller_namespace.'add',
+					'options' => array(
+						'css_class' => 'btn btn-primary',
+						'top' => TRUE,
+						'bottom' => TRUE,
+					)
+				)
+			),
+			'actions' => array(
+				'Edit' => array(
+					'text' => 'Edit',
+					'link' => $this->deta_controller_namespace.'edit/{id}'
+				) 
+			)
+		);
+		$this->set_view('Deta_Index', $view_data);
 	}
 
 	public function action_add()
@@ -33,7 +52,12 @@ class Deta_Core_Controller_Deta extends Controller_Base {
 
 	public function action_edit()
 	{
-		$model = Deta_Model::factory($this->deta_model, $this->request->param('id'));
+		$id = $this->request->param('id');
+		$model = Deta_Model::factory($this->deta_model, $id);
+		if ($id && ! $model->object->loaded())
+		{
+			throw HTTP_Exception::factory(404, 'Not found');
+		}
 		if ($_POST)
 		{
 			try
@@ -48,6 +72,10 @@ class Deta_Core_Controller_Deta extends Controller_Base {
 				Notice::add(Notice::ERROR, 'Please correct the errors below.');
 			}
 		}
+
+		$view_data = array(
+			'model' => $model,
+		);
 
 		$this->set_view('Deta_Edit', array('model' => $model));
 	}
