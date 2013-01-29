@@ -7,13 +7,26 @@
  * @author John Pancoast <shideon@gmail.com>
  * @copyright 2012-2013 John Pancoast
  * @license http://opensource.org/licenses/MIT MIT
- * @abstract
  */
 class Deta_Core_Model {
+	/**
+	 * @var string ORM model
+	 * @access protected
+	 */
 	protected $model = NULL;
+
+	/**
+	 * @var int ORM model object id
+	 * @access protected
+	 */
 	protected $model_id = NULL;
-	private $errors = array();
+
+	/**
+	 * @var Kohana_ORM An ORM model instance
+	 * @access public
+	 */
 	public $object = NULL;
+	private $errors = array();
 
 	/**
 	 * Constructor.
