@@ -135,7 +135,7 @@ class Deta_Core_Model {
 	 */
 	public function save(array $values)
 	{
-		foreach ($this->form_fields() AS $f)
+		foreach ($this->fields() AS $f)
 		{
 			$name = $f->name();
 			if (isset($values[$name]))
