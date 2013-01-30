@@ -11,4 +11,9 @@ class Deta_Core_Model_Field_Id extends Deta_Model_Field {
 		$field = Deta_Form_Field::factory('hidden', 'id');
 		$field->value($orm->{$this->name});
 	}
+
+	public function set_value(Kohana_ORM $orm, $value)
+	{
+		$orm->{$this->name} = $value;
+	}
 }

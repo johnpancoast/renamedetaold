@@ -40,6 +40,17 @@ abstract class Deta_Core_Model_Field {
 	protected $options = array();
 
 	/**
+	 * Set this field to always save.
+	 *
+	 * By default, a field will only be saved when a value has been passed.
+	 * This will make the field always save regardless of passed value which
+	 * is sometimes necessary when saving empty values.
+	 *
+	 * @access protected
+	 */
+	protected $always_save = FALSE;
+
+	/**
 	 * Add a field to our form
 	 *
 	 * @abstract
@@ -59,6 +70,17 @@ abstract class Deta_Core_Model_Field {
 	 * @return void
 	 */
 	abstract public function render_pager_field(Kohana_ORM $orm);
+
+	/**
+	 * Set field value
+	 *
+	 * @abstract
+	 * @access public
+	 * @param Kohana_ORM $orm An ORM model instance
+	 * @param mixed $value The value we're setting
+	 * @return void
+	 */
+	abstract public function set_value(Kohana_ORM $orm, $value);
 
 	/**
 	 * Constructor
@@ -131,5 +153,17 @@ abstract class Deta_Core_Model_Field {
 		}
 		$this->label = $label;
 		return $this;
+	}
+
+	/**
+	 * Is this field always saving
+	 *
+	 * @access public
+	 * @see $always_save
+	 * @return bool
+	 */
+	public function do_always_save()
+	{
+		return $this->always_save;
 	}
 }

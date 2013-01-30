@@ -38,4 +38,9 @@ class Deta_Core_Model_Field_Relation_One extends Deta_Model_Field {
 			}
 		}
 	}
+
+	public function set_value(Kohana_ORM $orm, $value)
+	{
+		$orm->{$this->name} = $value;
+	}
 }

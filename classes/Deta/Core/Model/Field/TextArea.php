@@ -1,10 +1,20 @@
 <?php defined('SYSPATH') OR die('No direct script access.');
 
 class Deta_Core_Model_Field_TextArea extends Deta_Model_Field {
-	public function add_field(Kohana_ORM $orm, Deta_Core_Form $form)
+	public function add_form_field(Kohana_ORM $orm, Deta_Core_Form $form)
 	{
-		$field = Deta_Form_Field::factory('textarea', $this->name, $this->label, $this->placeholder);
+		$field = Deta_Form_Field::factory('Textarea', $this->name, $this->label, $this->placeholder);
 		$field->value($orm->{$this->name});
 		$form->field($field);
+	}
+
+	public function render_pager_field(Kohana_ORM $orm)
+	{
+		return $orm->{$this->name};
+	}
+
+	public function set_value(Kohana_ORM $orm, $value)
+	{
+		$orm->{$this->name} = $value;
 	}
 }

@@ -12,4 +12,9 @@ class Deta_Core_Model_Field_Text extends Deta_Model_Field {
 	{
 		return $orm->{$this->name};
 	}
+
+	public function set_value(Kohana_ORM $orm, $value)
+	{
+		$orm->{$this->name} = $value;
+	}
 }

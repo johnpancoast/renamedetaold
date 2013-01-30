@@ -230,9 +230,9 @@ class Deta_Core_Model {
 		foreach ($this->fields() AS $f)
 		{
 			$name = $f->name();
-			if (isset($values[$name]))
+			if (isset($values[$name]) || $f->do_always_save())
 			{
-				$this->object->{$name} = $values[$name];
+				$f->set_value($this->object, $values[$name]);
 			}
 		}
 
