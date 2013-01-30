@@ -8,8 +8,9 @@ class Deta_Core_Model_Field_Id extends Deta_Model_Field {
 
 	public function add_form_field(Kohana_ORM $orm, Deta_Core_Form $form)
 	{
-		$field = Deta_Form_Field::factory('hidden', 'id');
+		$field = Deta_Form_Field::factory('hidden', 'id', NULL, NULL, $this->options);
 		$field->value($orm->{$this->name});
+		$form->field($field);
 	}
 
 	public function set_value(Kohana_ORM $orm, $value)

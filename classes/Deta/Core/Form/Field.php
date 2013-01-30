@@ -48,6 +48,13 @@ class Deta_Core_Form_Field {
 	private $placeholder = NULL;
 
 	/**
+	 * @var array Field config options
+	 *
+	 * @access private
+	 */
+	private $config_options = array();
+
+	/**
 	 * Constructor.
 	 *
 	 * You should not instantiate this class yourself. You should use {@link self::factory()} instead
@@ -58,14 +65,16 @@ class Deta_Core_Form_Field {
 	 * @param string $name Field name.
 	 * @param string $label Field label.
 	 * @param string $placeholder Field placeholder.
+	 * @param array $config_options Field config options.
 	 */
-	protected function __construct($type, $name = NULL, $label = NULL, $placeholder = NULL)
+	protected function __construct($type, $name = NULL, $label = NULL, $placeholder = NULL, array $config_options = array())
 	{
 		$name = $name ? $name : $type.'-noname-'.mt_rand(0000, 9999);
 		$this->type($type);
 		$this->name($name);
 		$this->label($label ? $label : ucfirst($name));
 		$this->placeholder($placeholder);
+		$this->config_options($config_options);
 
 		// a special property for mustache to test for the type
 		$this->{$type} = TRUE;
@@ -82,12 +91,13 @@ class Deta_Core_Form_Field {
 	 * @param string $name Field name.
 	 * @param string $label Field label.
 	 * @param string $placeholder Field placeholder.
+	 * @param array $config_options Field config options.
 	 * @return mixed A field driver class.
 	 */
-	public static function factory($type, $name = NULL, $label = NULL, $placeholder = NULL)
+	public static function factory($type, $name = NULL, $label = NULL, $placeholder = NULL, array $config_options = array())
 	{
 		$class = 'Deta_Form_Field_Driver_'.ucfirst($type);
-		return new $class($type, $name, $label, $placeholder);
+		return new $class($type, $name, $label, $placeholder, $config_options);
 	}
 
 	/**
@@ -183,6 +193,22 @@ class Deta_Core_Form_Field {
 			return $this->error;
 		}
 		$this->error = $error;
+		return $this;
+	}
+
+	/**
+	 * Set or get config options.
+	 * @access public
+	 * @param string $config_options Field config_options.
+	 * @return mixed Field config_options if $config_options not provided or self otherwise (for chaining).
+	 */
+	public function config_options($config_options = NULL)
+	{
+		if ($config_options === NULL)
+		{
+			return $this->config_options;
+		}
+		$this->config_options = $config_options;
 		return $this;
 	}
 }

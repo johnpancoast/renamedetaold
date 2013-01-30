@@ -20,7 +20,7 @@ class Deta_Core_Model_Field_Relation_One extends Deta_Model_Field {
 				}
 			}
 		}
-		$field = Deta_Form_Field::factory('select', $this->name, $this->label, $this->placeholder);
+		$field = Deta_Form_Field::factory('select', $this->name, $this->label, $this->placeholder, $this->options);
 		if ( ! empty($options))
 		{
 			$field->options($options);
