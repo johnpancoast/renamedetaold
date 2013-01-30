@@ -37,7 +37,17 @@ class Deta_Core_Controller_Deta extends Controller_Base {
 			'actions' => array(
 				'Edit' => array(
 					'text' => 'Edit',
-					'link' => $this->deta_controller_namespace.'edit/{id}'
+					'link' => $this->deta_controller_namespace.'edit/{id}',
+					'options' => array(
+						'css_class' => 'btn btn-link btn-small',
+					)
+				),
+				'Delete' => array(
+					'text' => 'Delete',
+					'link' => $this->deta_controller_namespace.'delete',
+					'options' => array(
+						'css_class' => 'btn btn-link btn-small',
+					)
 				) 
 			)
 		);
@@ -63,7 +73,7 @@ class Deta_Core_Controller_Deta extends Controller_Base {
 			try
 			{
 				$model->save($_POST);
-				HTTP::redirect($this->deta_controller_namespace.'index');
+				HTTP::redirect($this->deta_controller_namespace);
 			}
 			catch (ORM_Validation_Exception $e)
 			{
@@ -78,5 +88,29 @@ class Deta_Core_Controller_Deta extends Controller_Base {
 		);
 
 		$this->set_view('Deta_Edit', array('model' => $model));
+	}
+
+	public function action_delete()
+	{
+		$id = $this->request->post('id');
+		$obj = ORM::factory($this->deta_model, $id);
+		if ($id && $obj->loaded())
+		{
+			try
+			{
+				$obj->delete();
+			}
+			catch (Kohana_Exception $e)
+			{
+				throw HTTP_Exception::factory(503, 'Error occured.');
+			}
+
+			Notice::add(Notice::INFO, 'Item '.$id.' was deleted.');
+			HTTP::redirect($this->deta_controller_namespace);
+		}
+		else
+		{
+			throw HTTP_Exception::factory(404, 'Not found');
+		}
 	}
 }

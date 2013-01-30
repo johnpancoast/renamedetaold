@@ -1,6 +1,6 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
-class View_Deta_Index {
+class View_Deta_Index extends View_WWW_Base {
 	public $pager = NULL;
 
 	public function __construct(array $data = array())

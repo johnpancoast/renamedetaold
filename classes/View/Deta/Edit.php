@@ -1,6 +1,6 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
-class View_Deta_Edit {
+class View_Deta_Edit extends View_WWW_Base {
 	public $form = null;
 	
 	public function __construct($data = array())

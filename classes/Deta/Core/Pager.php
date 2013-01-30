@@ -172,7 +172,7 @@ abstract class Deta_Core_Pager {
 	 * @access protected
 	 * @todo allow this to be changed
 	 */
-	protected $action_separator = ' | ';
+	protected $action_separator = '';
 
 	/**
 	 * Prepare data.
