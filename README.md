@@ -1,6 +1,10 @@
 deta
 ====
-Deta is planned to be a form and pager builder for [Kohana](http://kohanaframework.org/) that will include ORM integration. At present Deta includes a pager with ORM integration and a form builder.
+Deta is a form and pager builder for [Kohana](http://kohanaframework.org/). It includes ORM integration and a generic CRUD controller that you can extend which allows you to create a scaffold quickly but still allows you to override the functionality as necessary. Deta does not "render" content. Instead it prepares data to be used in a view. Meaning it's meant for something like [KOstache](https://github.com/zombor/KOstache).
+
+At present, my implementation uses KOstache and twitter bootstrap but you can use whatever views/templates you'd like.
+
+*The CRUD controller is presently dependent on [https://github.com/shideon/application-common](https://github.com/shideon/application-common) but you can decouple this easily.*
 
 ## License
 This software is licensed under the MIT license. See LICENSE.
