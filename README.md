@@ -5,11 +5,11 @@ Deta is planned to be a form and pager builder for [Kohana](http://kohanaframewo
 ## License
 This software is licensed under the MIT license. See LICENSE.
 
-## Version 0.3.0.
-This is version 0.3.0.
+## Version 0.4.0.
+This is version 0.4.0.
 
 ## Changelog
-See the CHANGELOG for details on what has changed in this and previous versions.
+See CHANGELOG.md for details on what has changed in this and previous versions.
 
 ## Install
 * Clone it to (or add as a submodule to) APPPATH/modules/deta.
